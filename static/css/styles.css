@@ -1,26 +1,117 @@
-.navbar {
-	margin-bottom: 0;
-	border-radius: 0;
+:root {
+	/* Define CSS variables for consistent theming and easy changes */
+	--background-color-sidebar: #f8f9fa;
+	--background-color-filter-icon: #ddd;
+	--background-color-listing-card: #fff;
+	--background-color-footer: #555;
+	--color-footer-text: #fff;
+	--sticky-z-index: 1020;
+	--navbar-height: 56px;
+    --footer-height: 50px;
 }
-.row.content {
-	height: 450px;
-}
-.sidenav {
-	padding-top: 20px;
-	background-color: #f1f1f1;
+
+/* Make the root flex container fill at least the entire height of the viewport */
+html,
+body {
 	height: 100%;
+	margin: 0;
+	overflow: hidden; /* Prevents scrolling on the body itself */
 }
-footer {
-	background-color: #555;
-	color: white;
+
+body {
+	display: flex;
+	flex-direction: column;
+}
+
+.container-fluid {
+	display: flex;
+	flex-grow: 1; /* Allows the container to fill available space */
+	overflow: hidden; /* Prevents overflow outside this container */
+}
+
+.row {
+	height: calc(
+		100vh - var(--navbar-height)
+	); /* Adjusts to take full height minus navbar */
+	overflow: hidden; /* Optional: Prevents overflow if not necessary */
+}
+
+.scrollable-section {
+	overflow-y: auto; /* Enables scrolling within each section */
+	height: 100%; /* Full height of parent */
+}
+
+.scrollable-list {
+	overflow-y: auto; /* Enables scrolling */
+	height: calc(100% - 120px); /* Adjust height to account for the header */
+	padding-top: 10px;
+}
+
+.navbar {
+	height: var(--navbar-height);
+	flex-shrink: 0;
+}
+
+/* Sidebar for filters */
+.filter-sidebar {
+	background-color: var(--background-color-sidebar);
+	padding: 20px;
+	flex-basis: 25%; /* Adjust width */
+}
+
+/* Filter icons within the sidebar */
+.filter-icon,
+.filter-item {
+	padding: 10px;
+	margin: 5px;
+	border-radius: 50%; /* Circular shape */
+	background-color: var(--background-color-filter-icon);
+	display: inline-block;
+	cursor: pointer; /* Indicates items are interactive */
+}
+
+.fixed-header {
+	background: white;
+	padding: 10px 15px; /* Provides some spacing */
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow */
+	z-index: 10; /* Keeps it above the scrollable content */
+}
+
+.listing-section {
+	position: relative; /* Ensures positioning context */
+	height: 100%; /* Full height of the parent container */
+}
+
+/* Cards for individual listings */
+.listing-card {
+	margin-bottom: 20px;
 	padding: 15px;
+	background-color: var(--background-color-listing-card);
+	border: 1px solid #ddd;
+	border-radius: 5px; /* Rounded corners for the card */
 }
+
+/* Map container styles */
+.map-container {
+	flex-basis: 25%; /* Adjust width */
+}
+
+/* Footer with sticky positioning */
+.sticky-footer {
+	height: var(--footer-height);
+	flex-shrink: 0;
+	position: sticky;
+	bottom: 0;
+	width: 100%;
+	padding: 15px;
+	background-color: var(--background-color-footer);
+	color: var(--color-footer-text);
+	z-index: var(--sticky-z-index);
+}
+
+/* Adjustments for smaller screens */
 @media screen and (max-width: 767px) {
-	.sidenav {
-		height: auto;
-		padding: 15px;
-	}
-	.row.content {
-		height: auto;
+	.container-fluid.px-0 {
+		flex-direction: column;
 	}
 }
