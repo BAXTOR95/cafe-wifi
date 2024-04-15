@@ -84,7 +84,16 @@
 	<!-- Map Section -->
 	<div class="col-md-3 map-container scrollable-section">
 		<!-- Placeholder for Map Embedding (e.g., Google Earth API or iframe) -->
-		<div id="map">MAP</div>
+		<gmp-map
+			center="28.516874313354492,-81.33056640625"
+			zoom="14"
+			map-id="MAP_ID"
+		>
+			<gmp-advanced-marker
+				position="28.516874313354492,-81.33056640625"
+				title="My location"
+			></gmp-advanced-marker>
+		</gmp-map>
 	</div>
 </div>
 

@@ -7,7 +7,7 @@
 	--color-footer-text: #fff;
 	--sticky-z-index: 1020;
 	--navbar-height: 56px;
-    --footer-height: 50px;
+	--footer-height: 50px;
 }
 
 /* Make the root flex container fill at least the entire height of the viewport */
@@ -94,6 +94,12 @@ body {
 /* Map container styles */
 .map-container {
 	flex-basis: 25%; /* Adjust width */
+}
+
+/* Always set the map height explicitly to define the size of the div
+   element that contains the map. */
+gmp-map {
+	height: 100%;
 }
 
 /* Footer with sticky positioning */
