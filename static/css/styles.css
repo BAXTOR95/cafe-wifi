@@ -84,11 +84,21 @@ body {
 
 /* Cards for individual listings */
 .listing-card {
-	margin-bottom: 20px;
+	display: flex;
+	align-items: center;
+	margin-bottom: 15px; /* Adjust spacing between cards */
 	padding: 15px;
 	background-color: var(--background-color-listing-card);
 	border: 1px solid #ddd;
 	border-radius: 5px; /* Rounded corners for the card */
+}
+
+.listing-card img {
+	width: 260px; /* Fixed width for images */
+	height: 110px; /* Fixed height for images */
+	object-fit: cover; /* Cover the area, maintain aspect ratio without stretching */
+	border-radius: 0.25rem; /* Optional: to round the corners of the image */
+	margin-right: 15px; /* Space between image and text */
 }
 
 /* Map container styles */

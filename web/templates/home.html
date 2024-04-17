@@ -24,60 +24,27 @@
 	<!-- Listing Section -->
 	<div class="col-md-6 listing-section">
 		<div class="fixed-header">
-			<h2 class="mt-3">LONDON</h2>
+			<h2 class="mt-3">Cafes</h2>
 			<p>
 				The best work and study-friendly cafes, restaurants, libraries, and
-				hotel lobbies in London.
+				hotel lobbies in the world.
 			</p>
 		</div>
 		<div class="scrollable-list scrollable-section">
 			<!-- Listings -->
-			<div class="listing-card">
-				<h3>Store Street Espresso</h3>
-				<p>08:30 - 15:00 | 245 Hammersmith Road</p>
-				<!-- Add details for individual listing card -->
+			{% for cafe in cafes %}
+			<div class="listing-card d-flex align-items-center mb-3">
+				<img
+				src="{{ cafe.img_url }}"
+				alt="{{ cafe.name }}"
+				class="img-fluid"
+				/>
+				<div>
+					<h3>{{ cafe.name }}</h3>
+					<p>{{ cafe.location }}</p>
+				</div>
 			</div>
-			<div class="listing-card">
-				<h3>Arancina</h3>
-				<p>11:00 - 23:00 | 19 Pembridge Road</p>
-				<!-- Add details for individual listing card -->
-			</div>
-			<div class="listing-card">
-				<h3>Store Street Espresso</h3>
-				<p>08:30 - 15:00 | 245 Hammersmith Road</p>
-				<!-- Add details for individual listing card -->
-			</div>
-			<div class="listing-card">
-				<h3>Arancina</h3>
-				<p>11:00 - 23:00 | 19 Pembridge Road</p>
-				<!-- Add details for individual listing card -->
-			</div>
-			<div class="listing-card">
-				<h3>Store Street Espresso</h3>
-				<p>08:30 - 15:00 | 245 Hammersmith Road</p>
-				<!-- Add details for individual listing card -->
-			</div>
-			<div class="listing-card">
-				<h3>Arancina</h3>
-				<p>11:00 - 23:00 | 19 Pembridge Road</p>
-				<!-- Add details for individual listing card -->
-			</div>
-			<div class="listing-card">
-				<h3>Arancina</h3>
-				<p>11:00 - 23:00 | 19 Pembridge Road</p>
-				<!-- Add details for individual listing card -->
-			</div>
-			<div class="listing-card">
-				<h3>Arancina</h3>
-				<p>11:00 - 23:00 | 19 Pembridge Road</p>
-				<!-- Add details for individual listing card -->
-			</div>
-			<div class="listing-card">
-				<h3>Arancina</h3>
-				<p>11:00 - 23:00 | 19 Pembridge Road</p>
-				<!-- Add details for individual listing card -->
-			</div>
-			<!-- More listings -->
+			{% endfor %}
 		</div>
 	</div>
 
