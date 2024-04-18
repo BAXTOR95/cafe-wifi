@@ -4,64 +4,58 @@
 
 <!-- Main Content -->
 {% block content %}
-<div class="container-fluid d-flex h-100 px-0">
-	<!-- Filter Sidebar Section -->
-	<div class="col-md-3 filter-sidebar scrollable-section">
-		<h5>FILTERS</h5>
-		<div class="my-3">
-			<!-- Filter icons -->
-			<span class="filter-icon">Wi-Fi</span>
-			<span class="filter-icon">Sockets</span>
-			<!-- Add more filter icons as needed -->
-		</div>
-		<!-- Additional filters -->
-		<div class="filter-item">Quiet</div>
-		<div class="filter-item">Long stays</div>
-		<div class="filter-item">Community vibe</div>
-		<!-- More filters can be added here -->
+<!-- Filter Sidebar Section -->
+<div class="col-md-3 filter-sidebar scrollable-section">
+	<h5>FILTERS</h5>
+	<div class="my-3">
+		<!-- Filter icons -->
+		<span class="filter-icon">Wi-Fi</span>
+		<span class="filter-icon">Sockets</span>
+		<!-- Add more filter icons as needed -->
 	</div>
+	<!-- Additional filters -->
+	<div class="filter-item">Quiet</div>
+	<div class="filter-item">Long stays</div>
+	<div class="filter-item">Community vibe</div>
+	<!-- More filters can be added here -->
+</div>
 
-	<!-- Listing Section -->
-	<div class="col-md-6 listing-section">
-		<div class="fixed-header">
-			<h2 class="mt-3">Cafes</h2>
-			<p>
-				The best work and study-friendly cafes, restaurants, libraries, and
-				hotel lobbies in the world.
-			</p>
-		</div>
-		<div class="scrollable-list scrollable-section">
-			<!-- Listings -->
-			{% for cafe in cafes %}
-			<div class="listing-card d-flex align-items-center mb-3">
-				<img
-				src="{{ cafe.img_url }}"
-				alt="{{ cafe.name }}"
-				class="img-fluid"
-				/>
-				<div>
-					<h3>{{ cafe.name }}</h3>
-					<p>{{ cafe.location }}</p>
-				</div>
+<!-- Listing Section -->
+<div class="col-md-6 listing-section">
+	<div class="fixed-header">
+		<h2 class="mt-3">Cafes</h2>
+		<p>
+			The best work and study-friendly cafes, restaurants, libraries, and hotel
+			lobbies in the world.
+		</p>
+	</div>
+	<div class="scrollable-list scrollable-section">
+		<!-- Listings -->
+		{% for cafe in cafes %}
+		<div class="listing-card d-flex align-items-center mb-3">
+			<img src="{{ cafe.img_url }}" alt="{{ cafe.name }}" class="img-fluid" />
+			<div>
+				<h3>{{ cafe.name }}</h3>
+				<p>{{ cafe.location }}</p>
 			</div>
-			{% endfor %}
 		</div>
+		{% endfor %}
 	</div>
+</div>
 
-	<!-- Map Section -->
-	<div class="col-md-3 map-container scrollable-section">
-		<!-- Placeholder for Map Embedding (e.g., Google Earth API or iframe) -->
-		<gmp-map
-			center="28.516874313354492,-81.33056640625"
-			zoom="14"
-			map-id="MAP_ID"
-		>
-			<gmp-advanced-marker
-				position="28.516874313354492,-81.33056640625"
-				title="My location"
-			></gmp-advanced-marker>
-		</gmp-map>
-	</div>
+<!-- Map Section -->
+<div class="col-md-3 map-container scrollable-section">
+	<!-- Placeholder for Map Embedding (e.g., Google Earth API or iframe) -->
+	<gmp-map
+		center="28.516874313354492,-81.33056640625"
+		zoom="14"
+		map-id="MAP_ID"
+	>
+		<gmp-advanced-marker
+			position="28.516874313354492,-81.33056640625"
+			title="My location"
+		></gmp-advanced-marker>
+	</gmp-map>
 </div>
 
 {% endblock %}

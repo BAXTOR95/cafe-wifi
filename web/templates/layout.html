@@ -46,7 +46,7 @@
 		<!-- Navigation-->
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="#">Cafe&Wifi</a>
+				<a class="navbar-brand" href="{{ url_for('web.home') }}">Cafe&Wifi</a>
 				<button
 					class="navbar-toggler"
 					type="button"
@@ -61,22 +61,37 @@
 				<div class="collapse navbar-collapse" id="navbarResponsive">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 						<li class="nav-item active">
-							<a class="nav-link" href="#">
+							<a class="nav-link" href="{{ url_for('web.home') }}">
 								<i class="fa-solid fa-earth-americas"></i> ALL CITIES
 							</a>
 						</li>
+						{% if current_user.is_authenticated %}
 						<li class="nav-item">
-							<a class="nav-link" href="#"
+							<a class="nav-link" href="{{ url_for('web.add_cafe') }}"
 								><i class="fa-solid fa-square-plus"></i> SUGGEST PLACES
 							</a>
 						</li>
+						{% endif %}
 					</ul>
 					<ul class="navbar-nav">
+						{% if not current_user.is_authenticated %}
 						<li class="nav-item">
-							<a class="nav-link" href="#">
+							<a class="nav-link" href="{{ url_for('web.register') }}">
 								<i class="fa-solid fa-right-to-bracket"></i> JOIN COMMUNITY
 							</a>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ url_for('web.login') }}">
+								<i class="fa-solid fa-user"></i> LOGIN
+							</a>
+						</li>
+						{% else %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{ url_for('web.logout') }}">
+								<i class="fa-regular fa-square-caret-left"></i> LOGOUT
+							</a>
+						</li>
+						{% endif %}
 					</ul>
 				</div>
 			</div>
@@ -84,7 +99,11 @@
 
 		<!-- Content -->
 		<div class="container-fluid px-0 d-flex flex-column">
-			<div class="row gx-0 flex-grow-1">{% block content %}{% endblock %}</div>
+			<div class="row gx-0 flex-grow-1">
+				<div class="container-fluid d-flex h-100 px-0">
+					{% block content %}{% endblock %}
+				</div>
+			</div>
 		</div>
 
 		<!-- Footer -->
