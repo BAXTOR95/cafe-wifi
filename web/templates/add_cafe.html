@@ -5,5 +5,205 @@
 <!-- Main Content -->
 {% block content %}
 
+<!-- Form Card -->
+<div
+	class="col-lg-6 col-md-12 add-cafe-form-section scrollable-section card panel"
+>
+	<form
+		id="addCafeForm"
+		method="post"
+		action="{{ url_for('web.add_cafe') }}"
+		class="card-body"
+	>
+		{{ form.hidden_tag() }}
+		<div class="d-flex align-items-center mb-3">
+			<span class="sb-title h5"
+				><i class="fa-solid fa-map-location-dot"></i> Add a Cafe Location</span
+			>
+		</div>
+
+		<!-- Form fields -->
+
+		<!-- Name -->
+		<div class="form-floating mb-3">
+			{{ form.name(class="form-control" + (" is-invalid" if form.name.errors
+			else ""), placeholder="Cafe Name") }}
+			<label for="name">Cafe Name</label>
+			{% if form.name.errors %}
+			<div class="invalid-feedback" style="display: block">
+				{{ form.name.errors[0] }}
+			</div>
+			{% endif %}
+		</div>
+
+		<!-- IMG URL -->
+		<div class="form-floating mb-3">
+			{{ form.img_url(class="form-control" + (" is-invalid" if
+			form.img_url.errors else ""), placeholder="Image URL") }}
+			<label for="img_url">Image URL</label>
+			{% if form.img_url.errors %}
+			<div class="invalid-feedback" style="display: block">
+				{{ form.img_url.errors[0] }}
+			</div>
+			{% endif %}
+		</div>
+
+		<!-- Address -->
+		<div class="form-floating mb-3">
+			{{ form.location_input(class="form-control" + (" is-invalid" if
+			form.location_input.errors else ""), placeholder="Address") }}
+			<label for="location_input">Address</label>
+			{% if form.location_input.errors %}
+			<div class="invalid-feedback" style="display: block">
+				{{ form.location_input.errors[0] }}
+			</div>
+			{% endif %}
+		</div>
+
+		<!-- ADDRESS 2 -->
+		<div class="form-floating mb-3">
+			{{ form.address2_input(class="form-control" + (" is-invalid" if
+			form.address2_input.errors else ""), placeholder="Apt, Suite, etc
+			(optional)") }}
+			<label for="address2_input">Apt, Suite, etc (optional)</label>
+			{% if form.address2_input.errors %}
+			<div class="invalid-feedback" style="display: block">
+				{{ form.address2_input.errors[0] }}
+			</div>
+			{% endif %}
+		</div>
+
+		<!-- City -->
+		<div class="form-floating mb-3">
+			{{ form.locality_input(class="form-control" + (" is-invalid" if
+			form.locality_input.errors else ""), placeholder="City") }}
+			<label for="locality_input">City</label>
+			{% if form.locality_input.errors %}
+			<div class="invalid-feedback" style="display: block">
+				{{ form.locality_input.errors[0] }}
+			</div>
+			{% endif %}
+		</div>
+
+		<div class="half-input-container mb-3">
+			<!-- State/Province -->
+			<div class="form-floating me-1">
+				{{ form.administrative_area_level_1_input(class="form-control
+				half-input" + (" is-invalid" if
+				form.administrative_area_level_1_input.errors else ""),
+				placeholder="State/Province") }}
+				<label for="administrative_area_level_1_input">State/Province</label>
+				{% if form.administrative_area_level_1_input.errors %}
+				<div class="invalid-feedback" style="display: block">
+					{{ form.administrative_area_level_1_input.errors[0] }}
+				</div>
+				{% endif %}
+			</div>
+
+			<!-- Zip/Postal code -->
+			<div class="form-floating me-1">
+				{{ form.postal_code_input(class="form-control half-input" + ("
+				is-invalid" if form.postal_code_input.errors else ""),
+				placeholder="Zip/Postal code") }}
+				<label for="postal_code_input">Zip/Postal code</label>
+				{% if form.postal_code_input.errors %}
+				<div class="invalid-feedback" style="display: block">
+					{{ form.postal_code_input.errors[0] }}
+				</div>
+				{% endif %}
+			</div>
+		</div>
+
+		<!-- Country -->
+		<div class="form-floating mb-3">
+			{{ form.country_input(class="form-control" + (" is-invalid" if
+			form.country_input.errors else ""), placeholder="Country") }}
+			<label for="country_input">Country</label>
+			{% if form.country_input.errors %}
+			<div class="invalid-feedback" style="display: block">
+				{{ form.country_input.errors[0] }}
+			</div>
+			{% endif %}
+		</div>
+
+		<!-- Boolean Fields -->
+		<div class="boolean-input-container mb-3">
+			<!-- Has Sockets -->
+			<div class="form-check me-1">
+				{{ form.has_sockets(class="form-check-input", id="has_sockets") }}
+				<label class="form-check-label" for="has_sockets">Has Sockets?</label>
+			</div>
+			<!-- Has Toilet -->
+			<div class="form-check me-1">
+				{{ form.has_toilet(class="form-check-input", id="has_toilet") }}
+				<label class="form-check-label" for="has_toilet">Has Toilet?</label>
+			</div>
+			<!-- Has Wifi -->
+			<div class="form-check me-1">
+				{{ form.has_wifi(class="form-check-input", id="has_wifi") }}
+				<label class="form-check-label" for="has_wifi">Has Wi-Fi?</label>
+			</div>
+			<!-- Can Take Calls -->
+			<div class="form-check me-1">
+				{{ form.can_take_calls(class="form-check-input", id="can_take_calls") }}
+				<label class="form-check-label" for="can_take_calls"
+					>Can Take Calls?</label
+				>
+			</div>
+		</div>
+
+		<!-- Seat -->
+		<div class="form-floating mb-3">
+			{{ form.seats(class="form-control" + (" is-invalid" if form.seats.errors
+			else ""), placeholder="Number of Seats") }}
+			<label for="seats">Number of Seats</label>
+			{% if form.seats.errors %}
+			<div class="invalid-feedback" style="display: block">
+				{{ form.seats.errors[0] }}
+			</div>
+			{% endif %}
+		</div>
+
+		<!-- Coffee Price -->
+		<div class="form-floating mb-3">
+			{{ form.coffee_price(class="form-control" + (" is-invalid" if
+			form.coffee_price.errors else ""), placeholder="Price of Coffee") }}
+			<label for="coffee_price">Price of Coffee</label>
+			{% if form.coffee_price.errors %}
+			<div class="invalid-feedback" style="display: block">
+				{{ form.coffee_price.errors[0] }}
+			</div>
+			{% endif %}
+		</div>
+
+		<br />
+		{% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div
+                    class="alert {{ 'alert-success' if category == 'success' else 'alert-danger' }} alert-dismissible fade show text-center mb-3"
+                    role="alert"
+                >
+                    {{ message }}
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"
+                    ></button>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+		<!-- Submit Button -->
+		{{ form.submit(class="w-100 btn btn-lg btn-primary") }}
+	</form>
+</div>
+<!-- Map -->
+<div
+	class="col-lg-6 col-md-12 scrollable-section map-container"
+	id="gmp-map"
+></div>
 
 {% endblock %}

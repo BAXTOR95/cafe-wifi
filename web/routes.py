@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from models import Cafe, User
 from models.database import db
 from web.forms import RegisterForm, LoginForm, CafeForm
@@ -11,8 +11,13 @@ from flask_login import (
     current_user,
     logout_user,
 )
+from dotenv import load_dotenv
+from pathlib import Path
 
 web_blueprint = Blueprint('web', __name__, template_folder='templates')
+
+ENV_PATH = Path("..", "..", ".env")
+load_dotenv(dotenv_path=ENV_PATH)
 
 
 # Context processor to inject the MAPS_API_KEY into all templates
@@ -20,6 +25,11 @@ web_blueprint = Blueprint('web', __name__, template_folder='templates')
 def inject_maps_key():
     maps_api_key = os.getenv('MAPS_API_KEY')
     return dict(MAPS_API_KEY=maps_api_key)
+
+
+@web_blueprint.route("/config")
+def config():
+    return jsonify({"mapsApiKey": os.getenv('MAPS_API_KEY', 'defaultKey')})
 
 
 @web_blueprint.route("/")

@@ -20,9 +20,13 @@ class RegisterForm(FlaskForm):
 
 class CafeForm(FlaskForm):
     name = StringField('Cafe Name', validators=[DataRequired()])
-    map_url = StringField('Map URL', validators=[DataRequired(), URL()])
     img_url = StringField('Image URL', validators=[DataRequired(), URL()])
-    location = StringField('Location', validators=[DataRequired()])
+    location_input = StringField('Address', validators=[DataRequired()])
+    address2_input = StringField('Apt, Suite, etc (optional)')
+    locality_input = StringField('City', validators=[DataRequired()])
+    administrative_area_level_1_input = StringField('State/Province', validators=[DataRequired()])
+    postal_code_input = StringField('Zip/Postal code', validators=[DataRequired()])
+    country_input = StringField('Country', validators=[DataRequired()])
     has_sockets = BooleanField('Has Sockets')
     has_toilet = BooleanField('Has Toilet')
     has_wifi = BooleanField('Has Wifi')

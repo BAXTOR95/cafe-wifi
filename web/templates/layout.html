@@ -17,16 +17,15 @@
 			src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
 			crossorigin="anonymous"
 		></script>
-		<!-- Google Maps -->
-		<script
-			async
-			src="https://maps.googleapis.com/maps/api/js?key={{ MAPS_API_KEY }}&callback=console.debug&libraries=maps,marker&v=beta"
-		></script>
 		<!-- Google fonts-->
 		<link
 			href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"
 			rel="stylesheet"
 			type="text/css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css?family=Google+Sans+Text:500&amp;lang=en"
 		/>
 		<link
 			href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
@@ -113,7 +112,16 @@
 			<p>Footer Text</p>
 		</footer>
 
-		<!-- Bootstrap JS -->
+		<!-- Bootstrap core JS-->
 		{{ bootstrap.load_js() }}
+		<!-- Core theme JS-->
+		<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+
+		<!-- Google Maps -->
+		<script
+			src="https://maps.googleapis.com/maps/api/js?key={{ MAPS_API_KEY }}&libraries=maps,places,marker&callback=initApplication&solution_channel=GMP_QB_addressselection_v2_cABC&v=beta"
+			async
+			defer
+		></script>
 	</body>
 </html>
