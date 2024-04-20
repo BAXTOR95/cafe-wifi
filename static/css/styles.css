@@ -95,7 +95,7 @@ body {
 }
 
 .listing-card img {
-	width: 260px; /* Fixed width for images */
+	width: 200px; /* Fixed width for images */
 	height: 110px; /* Fixed height for images */
 	object-fit: cover; /* Cover the area, maintain aspect ratio without stretching */
 	border-radius: 0.25rem; /* Optional: to round the corners of the image */
@@ -132,13 +132,12 @@ gmp-map,
 	width: 600px;
 }
 
+.card-body {
+	padding: 100px;
+}
+
 .panel {
 	background: white;
-	flex-basis: auto;
-	padding: 20px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
 }
 
 .half-input-container {

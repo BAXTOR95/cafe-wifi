@@ -6,9 +6,7 @@
 {% block content %}
 
 <!-- Form Card -->
-<div
-	class="col-lg-6 col-md-12 add-cafe-form-section scrollable-section card panel"
->
+<div class="col-lg-6 col-md-12 add-cafe-form-section scrollable-section card">
 	<form
 		id="addCafeForm"
 		method="post"
@@ -177,24 +175,21 @@
 		</div>
 
 		<br />
-		{% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                <div
-                    class="alert {{ 'alert-success' if category == 'success' else 'alert-danger' }} alert-dismissible fade show text-center mb-3"
-                    role="alert"
-                >
-                    {{ message }}
-                    <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="alert"
-                        aria-label="Close"
-                    ></button>
-                </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+		{% with messages = get_flashed_messages(with_categories=true) %} {% if
+		messages %} {% for category, message in messages %}
+		<div
+			class="alert {{ 'alert-success' if category == 'success' else 'alert-danger' }} alert-dismissible fade show text-center mb-3"
+			role="alert"
+		>
+			{{ message }}
+			<button
+				type="button"
+				class="btn-close"
+				data-bs-dismiss="alert"
+				aria-label="Close"
+			></button>
+		</div>
+		{% endfor %} {% endif %} {% endwith %}
 
 		<!-- Submit Button -->
 		{{ form.submit(class="w-100 btn btn-lg btn-primary") }}

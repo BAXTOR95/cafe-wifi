@@ -5,6 +5,7 @@
 <!-- Main Content -->
 {% block content %}
 <!-- Filter Sidebar Section -->
+<!-- TODO: Implement filter feature -->
 <div class="col-md-3 filter-sidebar scrollable-section">
 	<h5>FILTERS</h5>
 	<div class="my-3">
@@ -32,7 +33,12 @@
 	<div class="scrollable-list scrollable-section">
 		<!-- Listings -->
 		{% for cafe in cafes %}
-		<div class="listing-card d-flex align-items-center mb-3">
+		<div
+			class="listing-card d-flex align-items-center mb-3"
+			data-latitude="{{ cafe.latitude }}"
+			data-longitude="{{ cafe.longitude }}"
+			onclick="updateMapCenter(this)"
+		>
 			<img src="{{ cafe.img_url }}" alt="{{ cafe.name }}" class="img-fluid" />
 			<div>
 				<h3>{{ cafe.name }}</h3>
@@ -47,14 +53,19 @@
 <div class="col-md-3 map-container scrollable-section">
 	<!-- Placeholder for Map Embedding (e.g., Google Earth API or iframe) -->
 	<gmp-map
-		center="28.516874313354492,-81.33056640625"
-		zoom="14"
+		id="cafemap"
+		center="{{ cafes[0].latitude }},{{ cafes[0].longitude }}"
+		zoom="16"
 		map-id="MAP_ID"
 	>
+		{% for cafe in cafes %}
 		<gmp-advanced-marker
-			position="28.516874313354492,-81.33056640625"
-			title="My location"
+			position="{{ cafe.latitude }},{{ cafe.longitude }}"
+			title="{{ cafe.name }}"
+			collisionBehavior="opt-in"
+			gmpClickable="true"
 		></gmp-advanced-marker>
+		{% endfor %}
 	</gmp-map>
 </div>
 

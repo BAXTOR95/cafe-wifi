@@ -1,5 +1,6 @@
 import os
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+import requests
+from flask import Blueprint, render_template, redirect, url_for, flash, jsonify
 from models import Cafe, User
 from models.database import db
 from web.forms import RegisterForm, LoginForm, CafeForm
@@ -8,11 +9,11 @@ from sqlalchemy.exc import IntegrityError
 from flask_login import (
     login_user,
     login_required,
-    current_user,
     logout_user,
 )
 from dotenv import load_dotenv
 from pathlib import Path
+from extensions import gmaps_client
 
 web_blueprint = Blueprint('web', __name__, template_folder='templates')
 
@@ -112,6 +113,88 @@ def logout():
     return redirect(url_for('web.home'))
 
 
+def construct_full_address(form):
+    """
+    Constructs a full address string from the given form data.
+
+    Args:
+        form: The form object containing the address input fields.
+
+    Returns:
+        A string representing the full address, with empty parts filtered out.
+    """
+    address_parts = [
+        form.location_input.data,
+        form.address2_input.data if form.address2_input.data else "",
+        form.locality_input.data,
+        form.administrative_area_level_1_input.data,
+        form.postal_code_input.data,
+        form.country_input.data,
+    ]
+    return ", ".join(filter(None, address_parts))
+
+
+def get_geocode(address):
+    """
+    Get the latitude and longitude coordinates for a given address.
+
+    Parameters:
+    address (str): The address to geocode.
+
+    Returns:
+    tuple: A tuple containing the latitude and longitude coordinates.
+           If the geocoding fails, returns (None, None).
+    """
+    try:
+        geocode_result = gmaps_client.geocode(address)
+        latitude = geocode_result[0]['geometry']['location']['lat']
+        longitude = geocode_result[0]['geometry']['location']['lng']
+        return latitude, longitude
+    except (IndexError, requests.exceptions.RequestException) as e:
+        return None, None
+
+
+def cafe_exists(address):
+    """
+    Check if a cafe with the given address exists in the database.
+
+    Args:
+        address (str): The address of the cafe to check.
+
+    Returns:
+        bool: True if a cafe with the given address exists, False otherwise.
+    """
+    return Cafe.query.filter_by(location=address).first() is not None
+
+
+def create_cafe(form, address, lat, lng):
+    """
+    Create a new Cafe object based on the provided form data, address, latitude, and longitude.
+
+    Args:
+        form (Form): The form data containing the cafe details.
+        address (str): The address of the cafe.
+        lat (float): The latitude of the cafe's location.
+        lng (float): The longitude of the cafe's location.
+
+    Returns:
+        Cafe: The newly created Cafe object.
+    """
+    return Cafe(
+        name=form.name.data,
+        img_url=form.img_url.data,
+        location=address,
+        latitude=lat,
+        longitude=lng,
+        seats=form.seats.data,
+        has_toilet=form.has_toilet.data,
+        has_wifi=form.has_wifi.data,
+        has_sockets=form.has_sockets.data,
+        can_take_calls=form.can_take_calls.data,
+        coffee_price=form.coffee_price.data,
+    )
+
+
 @web_blueprint.route('/add', methods=['GET', 'POST'])
 @login_required
 def add_cafe():
@@ -126,22 +209,26 @@ def add_cafe():
     """
     form = CafeForm()
     if form.validate_on_submit():
-        new_cafe = Cafe(
-            name=form.name.data,
-            map_url=form.map_url.data,
-            img_url=form.img_url.data,
-            location=form.location.data,
-            seats=form.seats.data,
-            has_toilet=form.has_toilet.data,
-            has_wifi=form.has_wifi.data,
-            has_sockets=form.has_sockets.data,
-            can_take_calls=form.can_take_calls.data,
-            coffee_price=form.coffee_price.data,
-        )
+        full_address = construct_full_address(form)
+        latitude, longitude = get_geocode(full_address)
+
+        if latitude is None or longitude is None:
+            flash(
+                "Address could not be geocoded. Please check the address details.",
+                category='error',
+            )
+            return render_template("add_cafe.html", form=form)
+
+        if cafe_exists(full_address):
+            flash("Cafe already exists in the database.", category='error')
+            return render_template("add_cafe.html", form=form)
+
+        new_cafe = create_cafe(form, full_address, latitude, longitude)
         db.session.add(new_cafe)
         db.session.commit()
         flash("Successfully added the new cafe.", category='success')
         return redirect(url_for('web.home'))
+
     return render_template("add_cafe.html", form=form)
 
 

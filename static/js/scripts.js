@@ -18,6 +18,14 @@ const ADDRESS_COMPONENT_TYPES_IN_FORM = [
 	'country',
 ];
 
+function updateMapCenter(element) {
+	var latitude = parseFloat(element.getAttribute('data-latitude'));
+	var longitude = parseFloat(element.getAttribute('data-longitude'));
+	const mapElement = document.getElementById('cafemap');
+
+	mapElement.setAttribute('center', `${latitude},${longitude}`);
+}
+
 // Utility functions for handling address form inputs and place data
 function getFormInputElement(componentType) {
 	return document.getElementById(`${componentType}_input`);
@@ -48,7 +56,7 @@ function fillInAddress(place) {
 
 function renderAddress(place, map, marker) {
 	if (place.geometry && place.geometry.location) {
-		map.setCenter(place.geometry.location);
+		map.panTo(place.geometry.location);
 		marker.position = place.geometry.location;
 	} else {
 		marker.position = null;
@@ -60,27 +68,30 @@ async function initApplication() {
 	const { Map } = await google.maps.importLibrary('maps');
 	const { AdvancedMarkerElement } = await google.maps.importLibrary('marker');
 	const { Autocomplete } = await google.maps.importLibrary('places');
-
 	const mapOptions = CONFIGURATION.mapOptions;
-	mapOptions.mapId = mapOptions.mapId || 'ADD_CAFE_MAP_ID';
-	mapOptions.center = mapOptions.center || { lat: 37.4221, lng: -122.0841 };
 
-	const map = new Map(document.getElementById('gmp-map'), mapOptions);
-	const marker = new AdvancedMarkerElement({ map });
-	const autocomplete = new Autocomplete(getFormInputElement('location'), {
-		fields: ['address_components', 'geometry', 'name'],
-		types: ['address'],
-	});
+	// Check if the element for the gmp-map exists
+	if (document.getElementById('gmp-map')) {
+		mapOptions.mapId = mapOptions.mapId || 'ADD_CAFE_MAP_ID';
+		mapOptions.center = mapOptions.center || { lat: 37.4221, lng: -122.0841 };
 
-	autocomplete.addListener('place_changed', () => {
-		const place = autocomplete.getPlace();
-		if (!place.geometry) {
-			window.alert(`No details available for input: '${place.name}'`);
-			return;
-		}
-		renderAddress(place, map, marker);
-		fillInAddress(place);
-	});
+		const map = new Map(document.getElementById('gmp-map'), mapOptions);
+		const marker = new AdvancedMarkerElement({ map });
+		const autocomplete = new Autocomplete(getFormInputElement('location'), {
+			fields: ['address_components', 'geometry', 'name'],
+			types: ['address'],
+		});
+
+		autocomplete.addListener('place_changed', () => {
+			const place = autocomplete.getPlace();
+			if (!place.geometry) {
+				window.alert(`No details available for input: '${place.name}'`);
+				return;
+			}
+			renderAddress(place, map, marker);
+			fillInAddress(place);
+		});
+	}
 }
 
 // Fetch configuration from the server and initialize the application

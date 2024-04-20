@@ -43,9 +43,10 @@ def add():
     try:
         new_cafe = Cafe(
             name=request.form["name"],
-            map_url=request.form["map_url"],
             img_url=request.form["img_url"],
             location=request.form["location"],
+            latitude=request.form["latitude"],
+            longitude=request.form["longitude"],
             seats=request.form["seats"],
             has_toilet=bool(request.form["has_toilet"]),
             has_wifi=bool(request.form["has_wifi"]),

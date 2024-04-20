@@ -59,15 +59,15 @@ if __name__ == "__main__":
     if geocode_result:
         print("Geocode result:", geocode_result)
 
-    # Using reverse geocode method
-    latitude, longitude = 40.714224, -73.961452
-    reverse_result = gmaps_client.reverse_geocode(latitude, longitude)
-    if reverse_result:
-        print("Reverse geocode result:", reverse_result)
+    # # Using reverse geocode method
+    # latitude, longitude = 40.714224, -73.961452
+    # reverse_result = gmaps_client.reverse_geocode(latitude, longitude)
+    # if reverse_result:
+    #     print("Reverse geocode result:", reverse_result)
 
-    # Using directions method
-    start = "Sydney Town Hall"
-    end = "Parramatta, NSW"
-    directions_result = gmaps_client.directions(start, end, mode="transit")
-    if directions_result:
-        print("Directions result:", directions_result)
+    # # Using directions method
+    # start = "Sydney Town Hall"
+    # end = "Parramatta, NSW"
+    # directions_result = gmaps_client.directions(start, end, mode="transit")
+    # if directions_result:
+    #     print("Directions result:", directions_result)
