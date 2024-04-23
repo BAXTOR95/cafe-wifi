@@ -82,7 +82,7 @@
 		<!-- Listings -->
 		{% for cafe in cafes %}
 		<div
-			class="listing-card d-flex align-items-center mb-3"
+			class="listing-card d-flex justify-content-between align-items-start mb-3"
 			data-latitude="{{ cafe.latitude }}"
 			data-longitude="{{ cafe.longitude }}"
 			data-has-wifi="{{ cafe.has_wifi }}"
@@ -96,6 +96,12 @@
 				<h3>{{ cafe.name|upper }}</h3>
 				<p>{{ cafe.location }}</p>
 			</div>
+			<!-- Delete Button -->
+			{% if current_user.is_admin %}
+			<a href="{{ url_for('web.delete_cafe', cafe_id=cafe.id) }}" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this cafe?');">
+				<i class="fa-solid fa-trash"></i>
+			</a>
+			{% endif %}
 		</div>
 		{% endfor %}
 	</div>

@@ -1,8 +1,8 @@
 :root {
 	/* Define CSS variables for consistent theming and easy changes */
 	--background-color-sidebar: #f8f9fa;
-	--background-color-filter-icon: #ddd;
-	--background-color-filter-icon-active: #171f22;
+	--background-color-filter-icon: #98f051;
+	--background-color-filter-icon-active: #63180b;
 	--background-color-listing-card: #fff;
 	--background-color-footer: #555;
 	--color-footer-text: #fff;
@@ -28,8 +28,9 @@ body > .container {
 	flex-grow: 1;
 }
 
-body, .container {
-    overflow: visible; /* Ensures that nothing is hidden */
+body,
+.container {
+	overflow: visible; /* Ensures that nothing is hidden */
 }
 
 .content-container {
@@ -104,7 +105,7 @@ body, .container {
 .filter-icon.filter-active {
 	background-color: var(--background-color-filter-icon-active);
 	color: white;
-	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 0 5px rgba(241, 1, 1, 0.582);
 	transition: background-color 0.3s ease;
 }
 
@@ -144,11 +145,6 @@ body, .container {
 /* Map container styles */
 .map-container {
 	flex-basis: auto; /* Adjust width */
-}
-
-.form-container {
-	margin-bottom: 50px;
-	min-height: 80vh;
 }
 
 /* Always set the map height explicitly to define the size of the div
@@ -259,8 +255,8 @@ input:focus::placeholder {
 /* Adjustments for smaller screens */
 @media screen and (max-width: 767px) {
 	.container {
-        margin-bottom: 30px; /* Smaller margin for smaller screens */
-    }
+		margin-bottom: 30px; /* Smaller margin for smaller screens */
+	}
 	.container-fluid {
 		position: relative; /* Establishes a positioning context for absolute positioning */
 	}

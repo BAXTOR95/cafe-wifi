@@ -14,6 +14,7 @@ from flask_login import (
 from dotenv import load_dotenv
 from pathlib import Path
 from extensions import gmaps_client
+from web.utils.decorators import admin_required
 
 web_blueprint = Blueprint('web', __name__, template_folder='templates')
 
@@ -232,4 +233,23 @@ def add_cafe():
     return render_template("add_cafe.html", form=form)
 
 
-# TODO: Add more routes here!
+@web_blueprint.route('/delete-cafe/<int:cafe_id>')
+@login_required
+@admin_required
+def delete_cafe(cafe_id):
+    """Deletes a cafe from the database.
+
+    Args:
+        cafe_id (int): The ID of the cafe to delete.
+
+    Returns:
+        Response: Redirect to the index page.
+    """
+    cafe = db.session.get(Cafe, cafe_id)
+    if cafe:
+        db.session.delete(cafe)
+        db.session.commit()
+        flash("Cafe deleted successfully.", category='success')
+    else:
+        flash("Cafe not found.", category='error')
+    return redirect(url_for('web.home'))
