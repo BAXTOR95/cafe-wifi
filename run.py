@@ -27,8 +27,9 @@ def create_app():
     return app
 
 
+app = create_app()
+
 if __name__ == "__main__":
-    app = create_app()
     # Ensures this runs only once and not on the reloader subprocess
     PROD = True if os.environ.get('PROD', False) == 'True' else False
     if PROD:
