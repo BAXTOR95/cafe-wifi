@@ -2,12 +2,13 @@
 	/* Define CSS variables for consistent theming and easy changes */
 	--background-color-sidebar: #f8f9fa;
 	--background-color-filter-icon: #ddd;
+	--background-color-filter-icon-active: #171f22;
 	--background-color-listing-card: #fff;
 	--background-color-footer: #555;
 	--color-footer-text: #fff;
-	--sticky-z-index: 1020;
+	--sticky-z-index: 1060;
 	--navbar-height: 56px;
-	--footer-height: 50px;
+	--footer-height: 70px;
 }
 
 /* Make the root flex container fill at least the entire height of the viewport */
@@ -15,15 +16,23 @@ html,
 body {
 	height: 100%;
 	margin: 0;
-	overflow: hidden; /* Prevents scrolling on the body itself */
 }
 
 body {
 	display: flex;
 	flex-direction: column;
+	min-height: 100vh;
 }
 
-.container-fluid {
+body > .container {
+	flex-grow: 1;
+}
+
+body, .container {
+    overflow: visible; /* Ensures that nothing is hidden */
+}
+
+.content-container {
 	display: flex;
 	flex-grow: 1; /* Allows the container to fill available space */
 	overflow: hidden; /* Prevents overflow outside this container */
@@ -52,6 +61,28 @@ body {
 	flex-shrink: 0;
 }
 
+.navbar-collapse {
+	background-color: #333; /* Darker shade to contrast with lighter text */
+}
+
+.navbar-dark .navbar-nav .nav-link {
+	color: #fff; /* Light color for visibility against a dark background */
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link.active {
+	background-color: #555; /* Slightly lighter to indicate hover or active state */
+}
+
+.navbar-dark .navbar-nav .dropdown-menu {
+	background-color: #222; /* Ensure dropdowns are also visibly distinct */
+}
+
+.navbar-nav .nav-link {
+	padding: 0.5rem 1rem; /* Adequate padding for touch targets and readability */
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25); /* Optional text shadow for better legibility */
+}
+
 /* Sidebar for filters */
 .filter-sidebar {
 	background-color: var(--background-color-sidebar);
@@ -70,11 +101,18 @@ body {
 	cursor: pointer; /* Indicates items are interactive */
 }
 
+.filter-icon.filter-active {
+	background-color: var(--background-color-filter-icon-active);
+	color: white;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+	transition: background-color 0.3s ease;
+}
+
 .fixed-header {
 	background: white;
 	padding: 10px 15px; /* Provides some spacing */
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow */
-	z-index: 10; /* Keeps it above the scrollable content */
+	z-index: var(--sticky-z-index); /* Keeps it above the scrollable content */
 }
 
 .listing-section,
@@ -87,6 +125,7 @@ body {
 .listing-card {
 	display: flex;
 	align-items: center;
+	cursor: pointer; /* Indicates items are interactive */
 	margin-bottom: 15px; /* Adjust spacing between cards */
 	padding: 15px;
 	background-color: var(--background-color-listing-card);
@@ -105,6 +144,11 @@ body {
 /* Map container styles */
 .map-container {
 	flex-basis: auto; /* Adjust width */
+}
+
+.form-container {
+	margin-bottom: 50px;
+	min-height: 80vh;
 }
 
 /* Always set the map height explicitly to define the size of the div
@@ -196,15 +240,58 @@ input:focus::placeholder {
 	position: sticky;
 	bottom: 0;
 	width: 100%;
-	padding: 15px;
+	clear: both; /* This ensures it clears floated content above it */
 	background-color: var(--background-color-footer);
 	color: var(--color-footer-text);
 	z-index: var(--sticky-z-index);
 }
 
+/* Adjustments for larger screens */
+@media screen and (min-width: 768px) {
+	.accordion-button {
+		display: none; /* Hide the accordion toggle button */
+	}
+	.accordion-collapse {
+		display: block !important; /* Ensure the accordion content is always shown */
+	}
+}
+
 /* Adjustments for smaller screens */
 @media screen and (max-width: 767px) {
+	.container {
+        margin-bottom: 30px; /* Smaller margin for smaller screens */
+    }
+	.container-fluid {
+		position: relative; /* Establishes a positioning context for absolute positioning */
+	}
 	.container-fluid.px-0 {
 		flex-direction: column;
+	}
+	.filter-sidebar {
+		position: absolute; /* Allows the sidebar to position over the listing section */
+		width: 100%; /* Ensures the sidebar spans the full width of its container */
+		z-index: 100; /* Ensures it stacks above the listing section */
+		background: #fff; /* Optional: provides a background to hide content underneath */
+	}
+	.listing-section {
+		margin-top: 0; /* Removes top margin to align with the top of the viewport */
+		order: 2; /* Ensures the listing section comes second */
+		position: relative; /* Ensure this is also positioned for z-index to work */
+		z-index: 1;
+		padding-top: 100px; /* Adjusts padding to account for the fixed header */
+	}
+	.map-container {
+		order: 3; /* Ensures the map section comes last */
+	}
+	.accordion-button.collapsed {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+	}
+	.accordion-collapse {
+		display: block;
+	}
+	.accordion-button:not(.collapsed) + .accordion-collapse {
+		display: static; /* Returns to normal document flow when not active */
 	}
 }

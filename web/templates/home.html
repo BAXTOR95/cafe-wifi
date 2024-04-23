@@ -5,20 +5,68 @@
 <!-- Main Content -->
 {% block content %}
 <!-- Filter Sidebar Section -->
-<!-- TODO: Implement filter feature -->
-<div class="col-md-3 filter-sidebar scrollable-section">
-	<h5>FILTERS</h5>
-	<div class="my-3">
-		<!-- Filter icons -->
-		<span class="filter-icon">Wi-Fi</span>
-		<span class="filter-icon">Sockets</span>
-		<!-- Add more filter icons as needed -->
+<div class="col-md-3 filter-sidebar">
+	<!-- Accordion wrapper -->
+	<div class="accordion" id="filterAccordion">
+		<div class="accordion-item">
+			<h2 class="accordion-header" id="headingFilters">
+				<button
+					class="accordion-button collapsed"
+					type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#collapseFilters"
+					aria-expanded="false"
+					aria-controls="collapseFilters"
+				>
+					FILTERS
+				</button>
+			</h2>
+			<div
+				id="collapseFilters"
+				class="accordion-collapse collapse"
+				aria-labelledby="headingFilters"
+				data-bs-parent="#filterAccordion"
+			>
+				<div class="accordion-body">
+					<!-- Filter icons -->
+					<div class="my-3">
+						<span
+							id="has-wifi-icon"
+							class="filter-icon"
+							onclick="toggleFilter('has-wifi')"
+							aria-label="Toggle Wi-Fi filter"
+							><i class="fa-solid fa-wifi"></i
+						></span>
+						<span
+							id="has-sockets-icon"
+							class="filter-icon"
+							onclick="toggleFilter('has-sockets')"
+							aria-label="Toggle Sockets filter"
+							><i class="fa-solid fa-plug"></i
+						></span>
+						<span
+							id="has-toilet-icon"
+							class="filter-icon"
+							onclick="toggleFilter('has-toilet')"
+							aria-label="Toggle Toilet filter"
+							><i class="fa-solid fa-toilet"></i
+						></span>
+						<!-- Add more filter icons here -->
+					</div>
+					<hr />
+					<!-- Additional filters -->
+					<span
+						id="can-take-calls-icon"
+						class="filter-icon"
+						onclick="toggleFilter('can-take-calls')"
+						aria-label="Toggle Calls filter"
+						><i class="fa-solid fa-phone-volume"></i
+					></span>
+					<!-- More filters can be added here -->
+				</div>
+			</div>
+		</div>
 	</div>
-	<!-- Additional filters -->
-	<div class="filter-item">Quiet</div>
-	<div class="filter-item">Long stays</div>
-	<div class="filter-item">Community vibe</div>
-	<!-- More filters can be added here -->
 </div>
 
 <!-- Listing Section -->
@@ -37,11 +85,15 @@
 			class="listing-card d-flex align-items-center mb-3"
 			data-latitude="{{ cafe.latitude }}"
 			data-longitude="{{ cafe.longitude }}"
+			data-has-wifi="{{ cafe.has_wifi }}"
+			data-has-sockets="{{ cafe.has_sockets }}"
+			data-has-toilet="{{ cafe.has_toilet }}"
+			data-can-take-calls="{{ cafe.can_take_calls }}"
 			onclick="updateMapCenter(this)"
 		>
 			<img src="{{ cafe.img_url }}" alt="{{ cafe.name }}" class="img-fluid" />
 			<div>
-				<h3>{{ cafe.name }}</h3>
+				<h3>{{ cafe.name|upper }}</h3>
 				<p>{{ cafe.location }}</p>
 			</div>
 		</div>

@@ -18,12 +18,56 @@ const ADDRESS_COMPONENT_TYPES_IN_FORM = [
 	'country',
 ];
 
+let activeFilters = {
+	'has-wifi': false,
+	'has-sockets': false,
+	'has-toilet': false,
+	'can-take-calls': false,
+};
+
 function updateMapCenter(element) {
 	var latitude = parseFloat(element.getAttribute('data-latitude'));
 	var longitude = parseFloat(element.getAttribute('data-longitude'));
 	const mapElement = document.getElementById('cafemap');
 
 	mapElement.setAttribute('center', `${latitude},${longitude}`);
+}
+
+function toggleFilter(filter) {
+	// Toggle the state of the filter
+	activeFilters[filter] = !activeFilters[filter];
+
+	// Update the appearance of the filter icon
+	const filterIcon = document.getElementById(`${filter}-icon`);
+	if (activeFilters[filter]) {
+		filterIcon.classList.add('filter-active');
+	} else {
+		filterIcon.classList.remove('filter-active');
+	}
+
+	// Filter the listings based on the active filters
+	var listings = document.querySelectorAll('.listing-card');
+	listings.forEach((listing) => {
+		let display = true;
+		for (const key in activeFilters) {
+			if (activeFilters[key]) {
+				// Use backticks for template literals to correctly interpolate the key
+				const attributeValue = listing.getAttribute(`data-${key}`);
+				if (attributeValue !== 'True') {
+					display = false;
+					break;
+				}
+			}
+		}
+		// Apply the determined display state to the listing
+		listing.style.display = display ? '' : 'none';
+		// Ensure the d-flex class is correctly added or removed based on the display state
+		if (display) {
+			listing.classList.add('d-flex');
+		} else {
+			listing.classList.remove('d-flex');
+		}
+	});
 }
 
 // Utility functions for handling address form inputs and place data
@@ -82,15 +126,19 @@ async function initApplication() {
 			types: ['address'],
 		});
 
-		autocomplete.addListener('place_changed', () => {
-			const place = autocomplete.getPlace();
-			if (!place.geometry) {
-				window.alert(`No details available for input: '${place.name}'`);
-				return;
-			}
-			renderAddress(place, map, marker);
-			fillInAddress(place);
-		});
+		autocomplete.addListener(
+			'place_changed',
+			() => {
+				const place = autocomplete.getPlace();
+				if (!place.geometry) {
+					window.alert(`No details available for input: '${place.name}'`);
+					return;
+				}
+				renderAddress(place, map, marker);
+				fillInAddress(place);
+			},
+			{ passive: true },
+		);
 	}
 }
 
