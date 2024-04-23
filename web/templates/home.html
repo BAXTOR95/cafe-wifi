@@ -110,6 +110,7 @@
 <!-- Map Section -->
 <div class="col-md-3 map-container scrollable-section">
 	<!-- Placeholder for Map Embedding (e.g., Google Earth API or iframe) -->
+	{% if cafes and cafes|length > 0 %}
 	<gmp-map
 		id="cafemap"
 		center="{{ cafes[0].latitude }},{{ cafes[0].longitude }}"
@@ -125,6 +126,16 @@
 		></gmp-advanced-marker>
 		{% endfor %}
 	</gmp-map>
+	{% else %}
+	<!-- Set to a default location, could be anywhere you'd prefer -->
+	<gmp-map
+		id="cafemap"
+		center="48.8566,2.3522"
+		zoom="16"
+		map-id="MAP_ID"
+	>
+	</gmp-map>
+	{% endif %}
 </div>
 
 {% endblock %}
