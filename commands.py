@@ -64,15 +64,13 @@ def create_admin_if_not_exists():
     if not db.session.query(exists().where(User.email == admin_email)).scalar():
         # Building the command
         command = (
-            f"flask --app run.py create-admin '{admin_email}' '{admin_password}' '{admin_name}'"
+            f"flask create-admin '{admin_email}' '{admin_password}' '{admin_name}'"
         )
-        command = shlex.split(command)  # Ensure the command is split correctly
-        # Execute the command
-        try:
-            subprocess.run(
-                command, check=True
-            )  # Runs the command and checks for errors
-        except subprocess.CalledProcessError as e:
-            print(f"Failed to create admin: {e}")
+        result = subprocess.run(command, shell=True, capture_output=True, text=True)
+
+        if result.returncode != 0:
+            print(f"Failed to create admin: {result.stderr}")
+        else:
+            print("Admin created successfully.")
     else:
         click.echo("Admin user already exists.")
