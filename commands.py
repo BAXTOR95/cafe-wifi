@@ -1,5 +1,7 @@
 import os
 import click
+import subprocess
+import shlex
 from flask.cli import with_appcontext
 from werkzeug.security import generate_password_hash
 from sqlalchemy import exists
@@ -60,6 +62,17 @@ def create_admin_if_not_exists():
         return
 
     if not db.session.query(exists().where(User.email == admin_email)).scalar():
-        create_admin(admin_email, admin_password, admin_name)
+        # Building the command
+        command = (
+            f"flask create-admin '{admin_email}' '{admin_password}' '{admin_name}'"
+        )
+        command = shlex.split(command)  # Ensure the command is split correctly
+        # Execute the command
+        try:
+            subprocess.run(
+                command, check=True
+            )  # Runs the command and checks for errors
+        except subprocess.CalledProcessError as e:
+            print(f"Failed to create admin: {e}")
     else:
         click.echo("Admin user already exists.")
