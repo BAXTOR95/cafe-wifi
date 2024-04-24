@@ -23,13 +23,12 @@ def create_app():
     # Register the custom Flask CLI command for creating an admin user
     app.cli.add_command(create_admin)
 
-    # Ensures this runs only once and not on the reloader subprocess
-    if PROD:
-        with app.app_context():
-            create_admin_if_not_exists()
-
     with app.app_context():
         db.create_all()
+
+        # Ensures this runs only once and not on the reloader subprocess
+        if PROD:
+            create_admin_if_not_exists()
 
     return app
 
