@@ -110,7 +110,7 @@ By following these steps, you should have a functional Google Maps API key integ
 
 ## Running the Project
 
-To run FlaskBlog on your local machine, use the following command:
+To run Cafe Wifi on your local machine, use the following command:
 
 ```bash
 flask --app run.py run
