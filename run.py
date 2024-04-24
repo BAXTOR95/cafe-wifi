@@ -8,6 +8,8 @@ from extensions import init_app
 import web.auth.auth
 from commands import create_admin, create_admin_if_not_exists
 
+PROD = True if os.environ.get('PROD', False) == 'True' else False
+
 
 def create_app():
     app = Flask(__name__)
@@ -21,6 +23,11 @@ def create_app():
     # Register the custom Flask CLI command for creating an admin user
     app.cli.add_command(create_admin)
 
+    # Ensures this runs only once and not on the reloader subprocess
+    if PROD:
+        with app.app_context():
+            create_admin_if_not_exists()
+
     with app.app_context():
         db.create_all()
 
@@ -30,10 +37,4 @@ def create_app():
 app = create_app()
 
 if __name__ == "__main__":
-    # Ensures this runs only once and not on the reloader subprocess
-    PROD = True if os.environ.get('PROD', False) == 'True' else False
-    if PROD:
-        with app.app_context():
-            create_admin_if_not_exists()
-
     app.run(debug=not PROD)
