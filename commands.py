@@ -64,7 +64,7 @@ def create_admin_if_not_exists():
     if not db.session.query(exists().where(User.email == admin_email)).scalar():
         # Building the command
         command = (
-            f"flask create-admin '{admin_email}' '{admin_password}' '{admin_name}'"
+            f"flask --app run.py create-admin '{admin_email}' '{admin_password}' '{admin_name}'"
         )
         command = shlex.split(command)  # Ensure the command is split correctly
         # Execute the command
