@@ -61,16 +61,24 @@ def create_admin_if_not_exists():
         click.echo("Admin environment variables are not set correctly.")
         return
 
-    if not db.session.query(exists().where(User.email == admin_email)).scalar():
-        # Building the command
-        command = (
-            f"flask create-admin '{admin_email}' '{admin_password}' '{admin_name}'"
-        )
-        result = subprocess.run(command, shell=True, capture_output=True, text=True)
-
-        if result.returncode != 0:
-            print(f"Failed to create admin: {result.stderr}")
-        else:
-            print("Admin created successfully.")
+    # Check if admin user already exists
+    admin_exists = db.session.query(exists().where(User.email == admin_email)).scalar()
+    if not admin_exists:
+        try:
+            # Create a new admin user
+            hashed_password = generate_password_hash(
+                admin_password, method='pbkdf2:sha256', salt_length=8
+            )
+            new_admin = User(
+                email=admin_email,
+                password=hashed_password,
+                name=admin_name,
+                is_admin=True,
+            )
+            db.session.add(new_admin)
+            db.session.commit()
+            print("Admin user created successfully.")
+        except Exception as e:
+            print(f"Failed to create admin user: {str(e)}")
     else:
-        click.echo("Admin user already exists.")
+        print("Admin user already exists.")
