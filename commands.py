@@ -51,9 +51,9 @@ def create_admin_if_not_exists():
     from models.database import db
 
     # Ensure environment variables are set
-    admin_email = os.getenv('ADMIN_EMAIL')
-    admin_password = os.getenv('ADMIN_PASSWORD')
-    admin_name = os.getenv('ADMIN_NAME')
+    admin_email = os.getenv('ADMIN_EMAIL', '').strip()
+    admin_password = os.getenv('ADMIN_PASSWORD', '').strip()
+    admin_name = os.getenv('ADMIN_NAME', '').strip()
 
     if not admin_email or not admin_password or not admin_name:
         click.echo("Admin environment variables are not set correctly.")
