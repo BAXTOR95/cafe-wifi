@@ -73,7 +73,7 @@ def create_admin_if_not_exists():
                 email=admin_email,
                 password=hashed_password,
                 name=admin_name,
-                is_admin=True,
+                is_admin=1,
             )
             db.session.add(new_admin)
             db.session.commit()
